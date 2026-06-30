@@ -1,0 +1,31 @@
+{
+  "name": "@maptec/jsapi-skills",
+  "version": "1.0.2",
+  "description": "Maptec JSAPI Agent Skill package",
+  "type": "module",
+  "bin": {
+    "jsapi-skills": "bin/jsapi-skills.js"
+  },
+  "files": [
+    "bin",
+    "SKILL.md",
+    "README.md",
+    "LICENSE",
+    "references",
+    "scripts"
+  ],
+  "scripts": {
+    "validate": "python3 scripts/validate_jsapi_skill.py ."
+  },
+  "keywords": [
+    "maptec",
+    "jsapi",
+    "agent",
+    "skill",
+    "maps"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT"
+}

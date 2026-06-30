@@ -13,11 +13,11 @@
 
 ## CircleOverlay
 
-`CircleOverlay` 一个实例可管理一组圆，圆心通过 `data` 传入。`unit: "pixels"` 适合点位圆点，`unit: "meters"` 适合地理范围。
+`CircleOverlay` 一个实例可管理一组圆，圆心通过 `centers` 传入。`unit: "pixels"` 适合点位圆点，`unit: "meters"` 适合地理范围。
 
 ```js
 const circle = new Maptec.CircleOverlay({
-  data: [[103.8198, 1.3521]],
+  centers: [[103.8198, 1.3521]],
   radius: 2000,
   unit: "meters",
   fillColor: "#2563eb",
@@ -32,7 +32,7 @@ map.addOverlay(circle);
 
 常用属性：
 
-- `data`: 圆心数组，格式为 `LngLatLike[]`。
+- `centers`: 圆心数组，格式为 `LngLatLike[]`。
 - `radius`
 - `unit`: `"meters"` 或 `"pixels"`。
 - `fillColor`、`fillOpacity`
@@ -43,10 +43,10 @@ map.addOverlay(circle);
 数据更新：
 
 ```js
-circle.setData([
+circle.centers = [
   [103.8198, 1.3521],
   [103.834, 1.31]
-]);
+];
 circle.radius = 120;
 ```
 
@@ -235,7 +235,7 @@ function cleanup() {
 ## 数据更新
 
 ```js
-circle.setData([[103.8298, 1.3521]]);
+circle.centers = [[103.8298, 1.3521]];
 circle.radius = 1500;
 circle.visible = true;
 
