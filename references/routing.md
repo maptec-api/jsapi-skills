@@ -18,6 +18,7 @@ Use this reference when planning or rendering driving routes, truck routes, wayp
 - Use `Maptec.Driving` for normal driving routes.
 - Use `Maptec.TruckDriving` when the scenario mentions truck, freight, vehicle height/weight/length, cargo constraints, or truck-specific restrictions.
 - If the user provides addresses or place names instead of coordinates/place ids, geocode them first with `Maptec.Geocode.getLocation(...)`, then pass `[lng, lat]` coordinates into route search.
+- Do not pass arbitrary natural-language addresses or POI names directly to route search. String `origin`/`destination` values are for supported place id strings.
 - Do not use a hand-drawn `Polyline` as a substitute for route planning when the requirement is a real route. Use `Driving`/`TruckDriving`; optionally render or restyle the returned path afterward.
 - Route planning results must mark direction with start/end icons. Use `Maptec.Marker` at origin/destination or the returned route path endpoints, for example green "起" and red "终"; include these markers in cleanup.
 
@@ -50,7 +51,7 @@ driving.search(origin, destination, callback);
 driving.search(origin, destination, options, callback);
 ```
 
-`origin` and `destination` can be `LngLatLike` coordinates or supported place id strings. Prefer `[lng, lat]` coordinates after geocoding user-provided addresses.
+`origin` and `destination` can be `LngLatLike` coordinates or supported place id strings. Prefer `[lng, lat]` coordinates after geocoding user-provided addresses. Do not pass plain address text or POI names directly unless they are confirmed place ids.
 
 ```js
 const origin = [103.8318, 1.3048];
@@ -119,6 +120,8 @@ map.addOverlay(endMarker);
 ## DirectionsCommonSearchOptions
 
 `DrivingSearchOptions = DirectionsCommonSearchOptions`.
+
+`DirectionsCommonSearchOptions` does not include `mode`. Choose route mode by service class: use `Maptec.Driving` for normal driving and `Maptec.TruckDriving` for truck routing.
 
 Fields:
 
@@ -333,6 +336,7 @@ Route services expose:
 
 - Do not decompose a route request into only markers. A route request must call `Driving.search` or `TruckDriving.search`.
 - Do not pass address strings to route search unless the SDK explicitly supports them. Use `Geocode.getLocation` first.
+- Do not pass `mode` in search options. Route mode is selected by `Maptec.Driving` or `Maptec.TruckDriving`.
 - If `enableDrawRoute` is `true`, avoid also drawing a duplicate custom `Polyline` unless product intentionally needs a second visual.
 - When `alternatives: true`, render route selection UI or call `setActiveRoute(...)`; otherwise the user cannot compare alternatives.
 - Truck constraints belong in `vehicleSpec`, not in normal `DrivingSearchOptions`.
