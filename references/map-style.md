@@ -1,6 +1,6 @@
 # 样式切换参考
 
-当用户要求白天/黑夜地图、暗色地图、亮色地图、增加按钮切换模式时，使用本参考。
+当用户要求白天/黑夜地图、暗色地图、亮色地图、TMC 交通底图或增加按钮切换模式时，使用本参考。
 
 ## 能力范围
 
@@ -8,6 +8,7 @@
 - 运行时通过 `map.setStyle(styleID)` 切换地图样式。
 - 增加自定义按钮、开关或业务 UI 触发样式切换。
 - 切换前保存地图中心点、缩放、旋转、倾斜等视图状态，切换后恢复。
+- 在 maptec-js test 分支使用已确认的 `traffic_dark`、`traffic_light` TMC 样式。
 
 ## 样式配置
 
@@ -56,6 +57,28 @@ function switchMapStyle(map, styleID) {
 ```
 
 如果项目里样式加载完成事件名称不同，可在项目适配层里包装，但不要把不存在的 SDK 方法写进对外文档。
+
+## TMC 交通底图
+
+maptec-js test 分支已确认以下样式 ID：
+
+- `traffic_dark`：交通暗色样式。
+- `traffic_light`：交通亮色样式。
+
+```js
+const map = new Maptec.Map({
+  container: "map",
+  style: "traffic_dark",
+  center: [103.8272, 1.3498],
+  zoom: 11.5
+});
+
+function setTrafficTheme(theme) {
+  map.setStyle(theme === "light" ? "traffic_light" : "traffic_dark");
+}
+```
+
+这两个 ID 的确认基线是 test 分支。接入其他部署环境前应确认样式资源、API Key 权限和交通数据授权；环境不支持时展示明确错误或回退到已配置的普通样式。
 
 ## 按钮切换模板
 
@@ -107,11 +130,13 @@ function restoreOverlays() {
 | “将地图切换为黑夜模式” | 使用黑夜样式初始化或调用 `map.setStyle(nightStyleID)` |
 | “增加一个按钮切换白天和黑夜地图” | 创建业务按钮，维护 `day/night` 状态，调用 `switchMapStyle` |
 | “默认白天，晚上自动黑夜” | 根据时间或业务状态选择 `MAP_STYLES.day/night` |
+| “显示实时交通态势” | 使用当前环境已确认的 `traffic_dark` 或 `traffic_light` |
 
 ## 注意事项
 
 - 不要把覆盖物颜色变化当作底图样式切换。
 - 不要硬编码未知 `style_id`。
+- `traffic_dark`、`traffic_light` 只按 test 分支确认；其他环境必须重新验证。
 - 不要为了切换样式丢失用户当前视角。
 - 切换底图样式后关注自定义图标、业务图层和覆盖物是否需要恢复。
 
@@ -120,4 +145,5 @@ function restoreOverlays() {
 - 初始化样式通过 `style` 参数设置；运行时样式切换使用 `map.setStyle(styleID)`。
 - 切换样式前应保存中心点、缩放、旋转和倾斜等视角状态，切换后恢复。
 - 白天/黑夜样式 ID 或样式地址必须来自已确认配置，不要编造真实 `style_id`。
+- 交通样式只使用已确认的 `traffic_dark`、`traffic_light`；不得自行拼接其他 `traffic_*` 名称。
 - 若项目有统一样式常量或封装，优先使用项目已有命名。

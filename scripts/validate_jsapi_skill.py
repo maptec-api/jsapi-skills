@@ -29,6 +29,39 @@ REAL_KEY_PATTERNS = [
     re.compile(r"Authorization:\s*Bearer\s+(?!\$MAPTEC_JSAPI_KEY)[A-Za-z0-9._-]{16,}"),
 ]
 
+REQUIRED_CAPABILITY_REFERENCES = {
+    "references/icon-overlay.md": ["Maptec.IconOverlay", "getClusterExpansionZoom"],
+    "references/circle-effects.md": [
+        "Maptec.CircleOverlayType.Wave",
+        "Maptec.CircleOverlayType.RadarScan",
+        "enableCluster",
+    ],
+    "references/map-labels.md": ["map.language", "showLabels", "map.setLabelsVisible"],
+    "references/overlay-manager.md": [
+        "map.overlayManager",
+        "getOverlayById",
+        "removeAll",
+    ],
+    "references/query-rendered-features.md": [
+        "map.queryRenderedFeatures",
+        "overlays",
+        "layers",
+    ],
+    "references/visualization-overlays.md": [
+        "Maptec.PrismOverlay",
+        "Maptec.HeatmapOverlay",
+        "Maptec.Heatmap3DOverlay",
+        "Maptec.HexagonOverlay",
+        "Maptec.MaskOverlay",
+    ],
+    "references/custom-layer.md": [
+        "map.addCustomLayer",
+        "map.removeCustomLayer",
+        "Maptec.MercatorCoordinate",
+    ],
+    "references/map-style.md": ["traffic_dark", "traffic_light"],
+}
+
 
 def line_of(text: str, index: int) -> int:
     return text.count("\n", 0, index) + 1
@@ -120,6 +153,36 @@ def check_references(skill_dir: Path) -> list[str]:
     return findings
 
 
+def check_capability_coverage(skill_dir: Path) -> list[str]:
+    findings: list[str] = []
+    skill_text = (skill_dir / "SKILL.md").read_text(
+        encoding="utf-8", errors="ignore"
+    )
+    routed_references = find_reference_links(skill_text)
+
+    for reference, required_apis in REQUIRED_CAPABILITY_REFERENCES.items():
+        if reference not in routed_references:
+            findings.append(
+                f"{skill_dir / 'SKILL.md'}:1: capability reference is not routed: {reference}"
+            )
+            continue
+
+        reference_path = skill_dir / reference
+        if not reference_path.exists():
+            continue
+
+        reference_text = reference_path.read_text(
+            encoding="utf-8", errors="ignore"
+        )
+        for api in required_apis:
+            if api not in reference_text:
+                findings.append(
+                    f"{reference_path}:1: missing required capability API '{api}'"
+                )
+
+    return findings
+
+
 def check_key_leaks(skill_dir: Path) -> list[str]:
     findings: list[str] = []
     for path in sorted(skill_dir.rglob("*")):
@@ -145,6 +208,7 @@ def main(argv: list[str]) -> int:
     findings.extend(check_skill_md(skill_dir))
     findings.extend(check_readme(skill_dir))
     findings.extend(check_references(skill_dir))
+    findings.extend(check_capability_coverage(skill_dir))
     findings.extend(check_key_leaks(skill_dir))
 
     if findings:

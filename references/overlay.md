@@ -2,6 +2,8 @@
 
 当用户要求绘制点、线、圆、多边形、范围、区域、业务面、GeoJSON 数据层，或要求矢量覆盖物样式配置、数据绑定、事件绑定时，使用本参考。
 
+Circle 波纹、雷达、阴影、发光和聚合读取 `references/circle-effects.md`；批量图标读取 `references/icon-overlay.md`；三维棱柱、二维/三维热力、蜂窝和遮罩读取 `references/visualization-overlays.md`；复杂渲染查询读取 `references/query-rendered-features.md`。
+
 ## 能力范围
 
 - 圆点/圆形范围：`Maptec.CircleOverlay`
@@ -39,6 +41,8 @@ map.addOverlay(circle);
 - `strokeColor`、`strokeOpacity`、`strokeWidth`、`strokeDasharray`
 - `type`: `CircleOverlayType`，用于波纹、雷达扫描等圆效果。
 - `visible`
+
+`Wave`、`RadarScan`、阴影、发光和聚合的完整参数及像素单位限制见 `references/circle-effects.md`。
 
 数据更新：
 
@@ -309,3 +313,4 @@ map.fitBounds([
 - 真实路线需求必须转到路线规划能力，不要用手写 `PolylineOverlay` 冒充。
 - 添加覆盖物后必须说明清理方式：`map.removeOverlay(overlay)`，事件 handler 也要解绑。
 - 添加覆盖物、检索结果或路线结果后必须进行视图适配：优先使用 `map.fitBounds(bounds, { padding, maxZoom })`；只有单点且没有范围时才使用 `map.easeTo` 或 `map.jumpTo`。
+- 需要高级可视化时按能力路由读取对应 reference，不要用基础 Polygon/GeoJSON 手工模拟已经公开的 Prism、Heatmap、Hexagon 或 Mask 类。

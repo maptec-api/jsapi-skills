@@ -1,11 +1,11 @@
 ---
 name: jsapi-skills
-description: 为 AI Agent 提供 MAPTEC JSAPI 服务能力的 Skill 集合，支持地图加载、交互、控件、事件、覆盖物、地点检索、路线规划等功能，让AI能够精准选择类、方法、参数、生命周期和清理方式。
+description: 为 AI Agent 提供 MAPTEC JSAPI 服务能力的 Skill 集合，支持地图加载、交互、控件、事件、基础与高级可视化覆盖物、地点检索、路线规划、自定义图层等功能，让AI能够精准选择类、方法、参数、生命周期和清理方式。
 ---
 
 # Maptec JSAPI Skill
 
-为 AI Agent 提供 MAPTEC JSAPI 服务能力的 Skill 集合，支持地图加载、交互、控件、事件、覆盖物、地点检索、路线规划等功能，让AI能够精准选择类、方法、参数、生命周期和清理方式。
+为 AI Agent 提供 MAPTEC JSAPI 服务能力的 Skill 集合，支持地图加载、交互、控件、事件、基础与高级可视化覆盖物、地点检索、路线规划、自定义图层等功能，让AI能够精准选择类、方法、参数、生命周期和清理方式。
 
 ## 安装接入
 
@@ -45,10 +45,16 @@ npm ls @maptec/maptec-js
 | 地图加载 | 创建地图实例，初始化加载地图 | “生成一个新加坡的地图” |
 | 地图交互 | 支持地图拖拽、缩放、旋转、倾斜、手势控制、交互开关配置 | “禁止用户旋转或拖拽地图” |
 | 地图控件 | 支持缩放导航、比例尺、全屏、指南针、鹰眼控件的位置配置、添加、移除与清理 | “在地图右下角添加比例尺控件” |
-| 样式切换 | 支持白天、黑夜模式切换 | “将地图切换为黑夜模式”“增加一个按钮切换白天和黑夜地图” |
+| 样式切换 | 支持白天、黑夜和 TMC 交通底图样式切换 | “将地图切换为交通态势样式”“增加一个按钮切换白天和黑夜地图” |
+| 底图标注 | 支持底图文字/图标语言切换和显隐控制 | “底图显示中文”“隐藏底图 POI 名称” |
 | 事件监听 | 支持地图事件和用户交互监听，配置地图点击、缩放变化、中心点变化、覆盖物点击等事件监听代码 | “点击地图获取当前位置的经纬度”“监听地图缩放级别变化” |
 | Marker | 面向业务可视化场景，支持 Marker 覆盖物 | “在点击位置增加Marker点” |
-| 矢量覆盖物 | 面向业务可视化场景，支持点、线、圆、多边形矢量覆盖物的样式配置、数据绑定、事件绑定 | “在地图上绘制一个半径2000米的圆形” |
+| 矢量覆盖物 | 支持点、线、圆、多边形和 GeoJSON；支持 Circle 波纹、雷达、阴影、发光与聚合 | “在地图上绘制雷达扫描点并对密集点聚合” |
+| 批量图标 | 支持 IconOverlay 图标、文字、碰撞避让和点聚合 | “批量展示站点图标和名称” |
+| 高级可视化 | 支持三维棱柱、二维/三维热力、三维蜂窝和区域遮罩 | “把订单密度展示成三维热力图” |
+| 覆盖物管理 | 支持统一显隐、按 ID 查询、批量添加/移除和清空 | “隐藏全部业务覆盖物并按 ID 恢复一个图层” |
+| 渲染要素查询 | 支持点击、框选和全视口查询当前可见要素 | “框选并列出当前区域内的 POI” |
+| 自定义图层 | 支持自定义 WebGL/Three.js 图层和三维模型 | “在地图上加载带阴影的 GLTF 模型” |
 | 信息窗口 | 面向业务可视化场景，支持信息窗口覆盖物 | “点击地图增加一个信息窗口展示当前位置经纬度” |
 | 轨迹动画 | 面向动态轨迹可视化场景，支持关键帧轨迹、行驶轨迹增长、图标沿线移动、车头自动朝向、视角跟随 | “让小车图标沿路线移动”“实现轨迹回放并支持暂停、继续、停止” |
 | POI检索 | 面向 POI 检索场景，支持关键词检索、周边检索、类型检索、详情检索 | “搜索新加坡所有咖啡馆并标注在地图上”“乌节路附近的餐厅” |
@@ -63,10 +69,16 @@ npm ls @maptec/maptec-js
 - **地图加载**：`references/map.md`。
 - **地图交互**：`references/operate.md`。
 - **地图控件**：`references/controls.md`。
-- **样式切换**：`references/map-style.md`；运行时样式切换使用 `map.setStyle(styleID)`。
+- **样式切换 / TMC 交通底图**：`references/map-style.md`；运行时样式切换使用 `map.setStyle(styleID)`。
+- **底图标注语言与显隐**：`references/map-labels.md`。
 - **事件监听**：`references/events.md`；涉及 Marker、矢量覆盖物或信息窗口事件时读取对应能力文档。
 - **Marker**：`references/marker.md`。
-- **矢量覆盖物**：`references/overlay.md`。
+- **矢量覆盖物**：`references/overlay.md`；Circle 波纹、雷达、阴影、发光或聚合读取 `references/circle-effects.md`。
+- **批量图标**：`references/icon-overlay.md`。
+- **三维棱柱、二维/三维热力、三维蜂窝、区域遮罩**：`references/visualization-overlays.md`。
+- **覆盖物统一管理**：`references/overlay-manager.md`。
+- **点击、框选或全视口渲染要素查询**：`references/query-rendered-features.md`。
+- **自定义 WebGL / Three.js 图层**：`references/custom-layer.md`。
 - **信息窗口**：`references/popup.md`。
 - **轨迹动画**：`references/track.md`；如果轨迹来自真实道路，先读取 `references/routing.md`。
 - **POI检索**：`references/place-search.md`；需要填写或匹配 POI `type/types` 时读取 `references/poi-categories.md`；地点范围不明确或附近检索需要中心点时读取 `references/geocoding.md`。
@@ -77,15 +89,22 @@ npm ls @maptec/maptec-js
 ## 实现流程
 
 1. 先把用户需求归入一个或多个功能列表条目。
-2. 明确输入：地点名、地址、坐标、POI 类型、半径、路线起终点、样式模式、控件位置、交互开关、事件类型。
+2. 明确输入：地点名、地址、坐标、POI 类型、半径、路线起终点、样式模式、标注语言/显隐、数据规模与权重、高度/聚合规则、控件位置、交互开关、事件类型。
 3. 只使用已确认能力：
    - 地图加载：`Maptec.Map`
    - 地图交互：`MapOptions` 交互字段、`map.interactive`、`minZoom/maxZoom`、`minPitch/maxPitch`、`maxBounds`、`jumpTo/easeTo/flyTo/fitBounds`
    - 地图控件：`NavigationControl`、`ScaleControl`、`FullscreenControl`、`CompassControl`、`HawkeyeControl`
-   - 样式切换：初始化 `style`；运行时使用 `map.setStyle(styleID)`
+   - 样式切换：初始化 `style`；运行时使用 `map.setStyle(styleID)`；测试分支已确认 TMC 样式 `traffic_dark`、`traffic_light`
+   - 底图标注：`map.language`、`showLabels`、`map.setLabelsVisible(visible)`
    - 事件监听：`map.on`、`map.once`、`map.off`、Marker/矢量覆盖物/信息窗口 `on/off`
    - Marker：`Maptec.Marker`
    - 矢量覆盖物：`Maptec.CircleOverlay`、`Maptec.PolylineOverlay`、`Maptec.PolygonOverlay`、`Maptec.GeoJSONOverlay`
+   - Circle 特效：`Maptec.CircleOverlayType.Wave`、`Maptec.CircleOverlayType.RadarScan`、阴影、发光和聚合参数
+   - 批量图标：`Maptec.IconOverlay`
+   - 高级可视化：`Maptec.PrismOverlay`、`Maptec.HeatmapOverlay`、`Maptec.Heatmap3DOverlay`、`Maptec.HexagonOverlay`、`Maptec.MaskOverlay`
+   - 覆盖物管理：`map.overlayManager`、`map.addOverlay/removeOverlay`、按 ID 查询与 `removeAll`
+   - 渲染要素查询：`map.queryRenderedFeatures(pointOrBox?, options?)`
+   - 自定义图层：`map.addCustomLayer/removeCustomLayer`、`Maptec.MercatorCoordinate`
    - 信息窗口：`Maptec.Popup`
    - 轨迹动画：`PointKeyFrameTrack`、`PolylineKeyFrameTrack`、`CameraKeyFrameTrack`、`CameraOrbitKeyFrameTrack`
    - POI检索：`Maptec.PlaceSearch`
@@ -111,12 +130,17 @@ npm ls @maptec/maptec-js
 - 坐标反查地址必须用 `Maptec.Geocode.getAddress`。
 - 真实驾车路线必须使用 `Maptec.Driving` 或 `Maptec.TruckDriving`，不要用手写折线冒充路线规划。
 - 路线规划结果必须使用 `Maptec.Marker` 增加起终点方向图标，起点标识“起”，终点标识“终”，并在清理阶段移除这两个 Marker。
-- Marker、Popup、CircleOverlay、PolylineOverlay、PolygonOverlay、GeoJSONOverlay 等通过 `map.addOverlay(overlay)` 添加，通过 `map.removeOverlay(overlay)` 或对应销毁方法清理。
+- Marker、Popup 和所有公开 Overlay 通过 `map.addOverlay(overlay)` 添加，通过 `map.removeOverlay(overlay)` 或对应销毁方法清理；需要统一显隐、按 ID 查询或清空时使用 `map.overlayManager`。
+- Circle 波纹、雷达和聚合只在 `unit: "pixels"` 时生效；表示实际地理范围时必须使用 `unit: "meters"`。
+- `queryRenderedFeatures({overlays})` 当前只确认支持 `GeoJSONOverlay`、`CircleOverlay`、`PolylineOverlay`、`PolygonOverlay`；不能把其他高级 Overlay 直接传入。
+- 底图 `map.language` 与 PlaceSearch/Geocode/Driving 的服务返回语言是不同作用域，不能混为一个设置。
+- 自定义图层必须提供唯一 ID、`type: "custom"`、`render` 和资源清理；经纬度转模型世界坐标使用 `Maptec.MercatorCoordinate`。
+- TMC 样式 `traffic_dark`、`traffic_light` 以 maptec-js test 分支为确认基线；其他部署环境仍需确认样式可用性和授权。
 - 控件通过 `map.addControl(control, position?)` 添加，通过 `map.removeControl(control)` 清理。
 - 事件订阅必须保存订阅对象或 listener 引用，并在清理阶段取消。
 - 地图加载后再添加依赖地图资源的控件、Marker、矢量覆盖物、信息窗口、检索结果、路线结果和动画对象。
 - 地图初始化 `center` 必须设置为用户提及的地理区域的合理默认坐标（如"新加坡"→ `[103.8198, 1.3521]`），不得使用 `[0, 0]` 或空值。路线规划、POI 检索等场景，先用区域默认中心初始化地图，数据加载完成后再通过 `fitBounds` 适配实际数据视口。
-- 绘制 Marker、Popup、CircleOverlay、PolylineOverlay、PolygonOverlay、GeoJSONOverlay、POI 检索结果或路线结果后，必须根据所有可见地理元素计算 bounds，并调用 `map.fitBounds(bounds, { padding, maxZoom? })` 进行视图适配；单点或小范围场景可使用 `map.easeTo/jumpTo` 设置中心和合适 zoom。
+- 绘制 Marker、Popup、基础/高级 Overlay、POI 检索结果或路线结果后，必须根据所有可见地理元素计算 bounds，并调用 `map.fitBounds(bounds, { padding, maxZoom? })` 进行视图适配；单点或小范围场景可使用 `map.easeTo/jumpTo` 设置中心和合适 zoom。
 - “所有/尽可能多”的 POI 检索必须说明分页和前端上限，不要补造缺失结果。
 - 样式切换使用 `map.setStyle(styleID)`；定位按钮使用浏览器 `navigator.geolocation` 加自定义业务按钮，不要编造内置定位控件类。
 - 未在 `maptec-js/src/index.ts` 公开导出或源码中确认的能力，统一标记为需确认。
@@ -141,5 +165,5 @@ npm ls @maptec/maptec-js
 
 - 能力归类。
 - 数据与服务调用计划。
-- Marker、矢量覆盖物、信息窗口、控件、事件和样式计划。
+- Marker、基础/高级可视化覆盖物、信息窗口、控件、事件、样式、资源与清理计划。
 - 生命周期和清理策略。
