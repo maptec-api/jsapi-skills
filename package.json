@@ -1,6 +1,6 @@
 {
   "name": "@maptec/jsapi-skills",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Maptec JSAPI Agent Skill package",
   "type": "module",
   "bin": {
